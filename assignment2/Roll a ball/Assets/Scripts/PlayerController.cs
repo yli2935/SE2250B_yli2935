@@ -8,7 +8,14 @@ public class PlayerController : MonoBehaviour
     public float forceScal=5;
     private Rigidbody rb;
     private int count;
+    private int number;
     public Text countText;
+    public int point
+    {
+        get { return number; }
+        set { number = value; }
+    }
+    
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -25,17 +32,21 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(movement* forceScal);
         
     }
-    private Color red = new Color(255, 0, 0);
+   
     private void OnTriggerEnter(Collider other)  
     {
-        if (other.gameObject.tag == "pickUp"&&other.GetComponent<MeshRenderer>().material.GetColor("_Color")==Color.green) { count = count + 1; }
-        else if(other.gameObject.tag == "pickUp" && other.GetComponent<MeshRenderer>().material.GetColor("_Color") == Color.red) { count = count + 4; } 
-        else { count += 2; }
+        if (other.gameObject.tag == "pickUp"&&other.GetComponent<MeshRenderer>().material.GetColor("_Color")==Color.green) { point=1; }
+        else if(other.gameObject.tag == "pickUp" && other.GetComponent<MeshRenderer>().material.GetColor("_Color") == Color.red) { point=4; } 
+        else { point=2; }
         Destroy(other.gameObject);
         SetCountText();
     }
     void SetCountText()
     {
+        count += point;
         countText.text = "Count: " + count.ToString();
     }
+
+    
+    
 }
